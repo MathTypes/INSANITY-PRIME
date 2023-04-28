@@ -260,7 +260,7 @@ def gachadraw1():
             else:
                 pass
         elif gacha >= 125 and gacha <= 249:
-            item = random.randint(0, 10)
+            item = random.randint(0, 11)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'
                 weapon = decent[item]
@@ -307,7 +307,7 @@ def gachadraw10():
             else:
                 pass
         elif gacha >= 125 and gacha <= 249:
-            item = random.randint(0, 10)
+            item = random.randint(0, 11)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'                
                 weapon = decent[item]
@@ -353,7 +353,7 @@ def gachagood1():
             else:
                 pass
         elif gacha >= 250 and gacha <= 499:
-            item = random.randint(0, 10)
+            item = random.randint(0, 11)
             dmgincrease += 5
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'                
@@ -380,7 +380,7 @@ def gachagood1():
             else:
                 pass
         elif gacha >= 7 and gacha <= 24:
-            item = random.randint(0, 10)
+            item = random.randint(0, 2)
             dmgincrease += 100
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
@@ -389,7 +389,7 @@ def gachagood1():
             else:
                 pass
         elif gacha >= 1 and gacha <= 6:
-            item = random.randint(0, 10)
+            item = random.randint(0, 5)
             dmgincrease += 500
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
@@ -424,7 +424,7 @@ def gachagood10():
             else:
                 pass
         elif gacha >= 250 and gacha <= 499:
-            item = random.randint(0, 10)
+            item = random.randint(0, 11)
             dmgincrease += 5
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'                
@@ -451,7 +451,7 @@ def gachagood10():
             else:
                 pass
         elif gacha >= 7 and gacha <= 24:
-            item = random.randint(0, 10)
+            item = random.randint(0, 2)
             dmgincrease += 100
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
@@ -460,7 +460,7 @@ def gachagood10():
             else:
                 pass
         elif gacha >= 1 and gacha <= 6:
-            item = random.randint(0, 10)
+            item = random.randint(0, 5)
             dmgincrease += 500
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
