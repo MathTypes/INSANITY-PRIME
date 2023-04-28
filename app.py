@@ -11,13 +11,13 @@ db = SQLAlchemy(app)
 
 absolutely_terrible = ['Training Sword', 'Wired Sword', 'Nothing Sword', 'Nonexistent Sword', 'Fight Me, Me Bow', 'Useless Bow', 'You Bow', 'Noob Scythe']
 not_as_bad_as_you = ['Dummy Sword', 'Game Sword', 'Listening Sword', 'Deaf Sword', 'Mistake Sword', 'Dumb Bow', 'Not as bad as you Bow', 'U suk Bow', 'Fake Scythe', 'Lmao Scythe']
-decent = ['Decent Sword', 'Ok Sword', 'Name every way to say decent Sword', 'Welcome Sword', 'Weirdly good Sword', 'Bow of Hummdinger', 'Wow Bow', 'Existence Bow', 'Duolingo', 'You', 'Terribly decent Bow', 'Scythe']
+decent = ['Decent Sword', 'Ok Sword', 'Name every way to say  decent Sword', 'Welcome Sword', 'Weirdly good Sword', 'Bow of Hummdinger', 'Wow Bow', 'Existence Bow', 'Duolingo', 'You', 'Terribly decent Bow', 'Scythe']
 fine = ['Eye Sword', 'I was mistaken about this Sword', 'Listen Sword', 'Good Sword', 'Chicken Sword', 'Bow Bow', 'Fine Bow', 'Wow its good Bow', 'Im done with the jokes Bow', 'Al Capone Scythe', 'WAIT Scythe']
 rare = ['Wow dis rare Sword', 'Rare Sword', 'Stone Sword', 'Sword', 'Joke Bow', 'Francais Bow', 'France Bow', 'French Bow', 'Slaughter Bow', 'Harold Scythe', 'Scythe of Jokes']
-epic = ['Epic Games Sword', 'Epic Sword', 'Electronic Arts Sword', 'PVZ2 Sword', 'Fan Sword', 'EA Sword', 'Popcap Sword', 'Peashooter Bow', 'Red Stinger Bow', 'Sub to Alvin and Jere', 'LMAO']
-legendary = ['Not You', 'Cracker', 'Deafen', 'AlbyPro', 'Not PrestonPlayz', 'Alvin and Jere']
-mythic = ['Kamehameha', 'Nimbus Cloud Gun', 'AK47', 'Cobra DMR', 'Fortnite']
-divine = ['Drill of Divan', 'Murder Scythe', 'LMAO U SUK']
+epic = ['Excellent Sword', 'Peashooter Bow', 'Red Stinger Bow']
+legendary = ['Not You', 'Cracker', 'Deafen', 'Professional Demon', 'Not A Flamethrower', 'Alvin and Jere']
+mythic = ['The Prime\'s Crusher', 'Death\'s Destroyer', 'Demolisher']
+divine = ['Drill of Divan', 'Murder Scythe', 'You\'re trash kid']
 what_the_heck_how_did_you_get_this = ['Ray of God', 'Ray of Death']
 alright_ur_a_hacker = ['?sudo']
 
