@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 
 absolutely_terrible = ['Training Sword', 'Wired Sword', 'Nothing Sword', 'Nonexistent Sword', 'Fight Me, Me Bow', 'Useless Bow', 'You Bow', 'Noob Scythe']
 not_as_bad_as_you = ['Dummy Sword', 'Game Sword', 'Listening Sword', 'Deaf Sword', 'Mistake Sword', 'Dumb Bow', 'Not as bad as you Bow', 'U suk Bow', 'Fake Scythe', 'Lmao Scythe']
-decent = ['Decent Sword', 'Ok Sword', 'Name every way to say  decent Sword', 'Welcome Sword', 'Weirdly good Sword', 'Bow of Hummdinger', 'Wow Bow', 'Existence Bow', 'Duolingo', 'You', 'Terribly decent Bow', 'Scythe']
+decent = ['Decent Sword', 'Ok Sword', 'Name every way to say decent Sword', 'Welcome Sword', 'Weirdly good Sword', 'Bow of Hummdinger', 'Wow Bow', 'Existence Bow', 'Duolingo', 'You', 'Terribly decent Bow', 'Scythe']
 fine = ['Eye Sword', 'I was mistaken about this Sword', 'Listen Sword', 'Good Sword', 'Chicken Sword', 'Bow Bow', 'Fine Bow', 'Wow its good Bow', 'Im done with the jokes Bow', 'Al Capone Scythe', 'WAIT Scythe']
 rare = ['Wow dis rare Sword', 'Rare Sword', 'Stone Sword', 'Sword', 'Joke Bow', 'Francais Bow', 'France Bow', 'French Bow', 'Slaughter Bow', 'Harold Scythe', 'Scythe of Jokes']
 epic = ['Excellent Sword', 'Peashooter Bow', 'Red Stinger Bow']
@@ -20,6 +20,109 @@ mythic = ['The Prime\'s Crusher', 'Death\'s Destroyer', 'Demolisher']
 divine = ['Drill of Divan', 'Murder Scythe', 'You\'re trash kid']
 what_the_heck_how_did_you_get_this = ['Ray of God', 'Ray of Death']
 alright_ur_a_hacker = ['?sudo']
+
+absolutely_terrible_dict = {
+    'Training Sword':10,
+    'Wired Sword':11,
+    'Nothing Sword':12,
+    'Noneistent Sword':13,
+    'Fight Me, Me Bow':14,
+    'Useless Bow':15,
+    'You Bow':16,
+    'Noob Scythe':17,
+}
+
+not_as_bad_as_you_dict = {
+    'Dummy Sword':20,
+    'Game Sword':22,
+    'Listening Sword':24,
+    'Deaf Sword':26,
+    'Mistake Sword':28,
+    'Dumb Bow':30,
+    'Not as bad as you Bow':32,
+    'U suk Bow': 34,
+    'Fake Scythe': 36,
+    'Lmao Scythe': 38,
+}
+
+decent_dict = {
+    'Decent Sword':50,
+    'Ok Sword':55,
+    'Name every way to say decent Sword':60,
+    'Welcome Sword':65,
+    'Weirdly good Sword':70,
+    'Bow of Hummdinger':75,
+    'Wow Bow':80,
+    'Existence Bow':85,
+    'Duolingo':90,
+    'You':95,
+    'Terribly Decent Bow':100,
+    'Scythe':105,
+}
+
+fine_dict = {
+    'Eye Sword':200,
+    'I was mistaken about this Sword':210,
+    'Listen Sword':220,
+    'Good Sword':230,
+    'Chicken Sword':240,
+    'Bow Bow':250,
+    'Fine Bow':260,
+    'Wow its good Bow':270,
+    'Im done with the jokes Bow':280,
+    'Al Capone Scythe':290,
+    'WAIT Scythe':300,
+}
+
+rare_dict = {
+    'Wow dis rare Sword':500,
+    'Rare Sword':525,
+    'Stone Sword':550,
+    'Sword':575,
+    'Joke Bow':600,
+    'French Bow':625,
+    'France Bow':650,
+    'Francais Bow':675,
+    'Slaughter Bow':700,
+    'Harold Scythe':725,
+    'Scythe of Jokes':750,
+}
+
+epic_dict = {
+    'Excellent Sword':2500,
+    'Peashooter Bow':2600,
+    'Red Stinger Bow':2700,
+}
+
+legendary_dict = {
+    'Not You':10000,
+    'Cracker':10500,
+    'Deafen':11000,
+    'Professional Demon':11500,
+    'Not A Flamethrower':12000,
+    'Alvin and Jere':12500,
+}
+
+mythic_dict = {
+    'The Prime\'s Crusher':50000,
+    'Death\'s Destroyer':51000,
+    'Demolisher':52000,
+}
+
+divine_dict = {
+    'Drill of Divan':250000,
+    'Murder Scythe':500000,
+    'You\'re trash kid':1000000,
+}
+
+what_the_heck_how_did_you_get_this_dict = {
+    'Ray of God':5000000,
+    'Ray of Death':50000000,
+}
+
+alright_ur_a_hacker_dict = {
+    '?sudo':float('inf')
+}
 
 rarities = ['filler', 'absolutely terrible', 'not as bad as you', 'decent', 'fine', 'rare', 'epic', 'legendary', 'mythic', 'divine', 'what the heck how did you get this', 'alright ur a hacker']
 
@@ -274,7 +377,7 @@ def gachadraw1():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 100
+                dmg = 200
             else:
                 pass
     return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
@@ -319,7 +422,7 @@ def gachadraw10():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 100
+                dmg = 200
             else:
                 pass
     return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
@@ -365,7 +468,7 @@ def gachagood1():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 100
+                dmg = 200
             else:
                 pass
         elif gacha >= 25 and gacha <= 124:
@@ -374,7 +477,7 @@ def gachagood1():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
                 rarity = 'rare'
                 weapon = rare[item]
-                dmg = 250
+                dmg = 500
             else:
                 pass
         elif gacha >= 7 and gacha <= 24:
@@ -383,7 +486,7 @@ def gachagood1():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
                 weapon = epic[item]
-                dmg = 1000
+                dmg = 2500
             else:
                 pass
         elif gacha >= 1 and gacha <= 6:
@@ -392,7 +495,7 @@ def gachagood1():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
                 weapon = legendary[item]
-                dmg = 5000
+                dmg = 10000
             else:
                 pass
         dmg += dmgincrease
@@ -434,7 +537,7 @@ def gachagood10():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 100
+                dmg = 200
             else:
                 pass
         elif gacha >= 25 and gacha <= 124:
@@ -443,7 +546,7 @@ def gachagood10():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
                 rarity = 'rare'
                 weapon = rare[item]
-                dmg = 250
+                dmg = 500
             else:
                 pass
         elif gacha >= 7 and gacha <= 24:
@@ -452,7 +555,7 @@ def gachagood10():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
                 weapon = epic[item]
-                dmg = 1000
+                dmg = 2500
             else:
                 pass
         elif gacha >= 1 and gacha <= 6:
@@ -461,7 +564,7 @@ def gachagood10():
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
                 weapon = legendary[item]
-                dmg = 5000
+                dmg = 10000
             else:
                 pass
         dmg += dmgincrease
