@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "INSANITY-SANS";
+  src: url("/assets/font/Pixellari.ttf");
+}
+
+* {
+  font-family: "INSANITY-SANS"
+}
