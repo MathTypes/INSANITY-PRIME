@@ -33,7 +33,7 @@ absolutely_terrible_dict = {
 }
 
 not_as_bad_as_you_dict = {
-    'Dummy Sword':20,
+    'Dummy Sword':200,
     'Game Sword':22,
     'Listening Sword':24,
     'Deaf Sword':26,
@@ -177,9 +177,6 @@ first_time_trialI = True
 trial_i = False
 
 zombie_killer_alive = True
-
-first_time_gacha = True
-first_time_goodgacha = True
 
 @app.route('/', methods=['POST', 'GET'])
 def enterinfo():
@@ -334,95 +331,137 @@ def gachagood():
     return render_template('gachagood.html')
 
 
-@app.route('/weapongacha1', methods=['POST', 'GET'])
-def gachadraw1():
-    global weapon, coins, rarity, dmg, first_time_gacha
-    if coins < 500:
-        return '''You cannot afford a gacha pull.<br>
-                <a href="/weapongacha">Back</a>'''
-    for items in range(1):
-        coins -= 500
-        gacha = random.randint(1, 1000)
-        if first_time_gacha == True:
-            gacha = 1
-            first_time_gacha = False
-        if gacha >= 500:
+@app.route('/weapongacha10', methods=['POST', 'GET'])
+def gachadraw10():
+    global weapon, coins, rarity, dmg
+    if coins < 3000:
+        return '''You cannot afford a 10 pull.<br>
+                <a href="/gacha">Back</a>'''
+    coins -= 3000
+    for items in range(10):
+        gacha = random.randint(375, 10000)
+        if gacha >= 5000:
             item = random.randint(0, 7)
             if rarity == 'None' or rarity == 'absolutely terrible':
                 rarity = 'absolutely terrible'
                 weapon = absolutely_terrible[item]
-                dmg = 10
+                dmg = absolutely_terrible_dict[weapon]
             else:
                 pass
-        elif gacha >= 250 and gacha <= 499:
+        elif gacha >= 2500 and gacha <= 4999:
             item = random.randint(0, 9)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you':
                 rarity = 'not as bad as you'
                 weapon = not_as_bad_as_you[item]
-                dmg = 20
+                dmg = not_as_bad_as_you_dict[weapon]
             else:
                 pass
-        elif gacha >= 125 and gacha <= 249:
+        elif gacha >= 1250 and gacha <= 2499:
             item = random.randint(0, 11)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'
                 weapon = decent[item]
-                dmg = 50
+                dmg = decent_dict[weapon]
             else:
                 pass
-        elif gacha >= 1 and gacha <= 124:
+        elif gacha >= 750 and gacha <= 1249:
             item = random.randint(0, 10)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 200
+                dmg = fine_dict[weapon]
+            else:
+                pass
+        elif gacha >= 500 and gacha <= 749:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
+                rarity = 'rare'
+                weapon = rare[item]
+                dmg = rare_dict[weapon]
+            else:
+                pass
+        elif gacha >= 400 and gacha <= 499:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
+                rarity = 'epic'
+                weapon = epic[item]
+                dmg = epic_dict[weapon]
+            else:
+                pass
+        elif gacha >= 375 and gacha <= 399:
+            item = random.randint(0, 5)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
+                rarity = 'legendary'
+                weapon = legendary[item]
+                dmg = legendary_dict[weapon]
             else:
                 pass
     return '''You got your items<br>
            <a href="/start">Go back</a>'''
 
-@app.route('/weapongacha10', methods=['POST', 'GET'])
-def gachadraw10():
-    global weapon, coins, rarity, dmg, first_time_gacha
-    if coins < 3000:
-        return '''You cannot afford a 10 pull.<br>
+@app.route('/weapongacha1', methods=['POST', 'GET'])
+def gachadraw1():
+    global weapon, coins, rarity, dmg
+    if coins < 500:
+        return '''You cannot afford a gacha pull.<br>
                 <a href="/gacha">Back</a>'''
-    for items in range(10):
-        coins -= 300
-        gacha = random.randint(1, 1000)
-        if first_time_gacha == True:
-            gacha = 1
-            first_time_gacha = False
-        if gacha >= 500:
+    coins -= 500
+    for items in range(1):
+        gacha = random.randint(375, 10000)
+        if gacha >= 5000:
             item = random.randint(0, 7)
             if rarity == 'None' or rarity == 'absolutely terrible':
                 rarity = 'absolutely terrible'
                 weapon = absolutely_terrible[item]
-                dmg = 10
+                dmg = absolutely_terrible_dict[weapon]
             else:
                 pass
-        elif gacha >= 250 and gacha <= 499:
+        elif gacha >= 2500 and gacha <= 4999:
             item = random.randint(0, 9)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you':
                 rarity = 'not as bad as you'
                 weapon = not_as_bad_as_you[item]
-                dmg = 20
+                dmg = not_as_bad_as_you_dict[weapon]
             else:
                 pass
-        elif gacha >= 125 and gacha <= 249:
+        elif gacha >= 1250 and gacha <= 2499:
             item = random.randint(0, 11)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
-                rarity = 'decent'                
+                rarity = 'decent'
                 weapon = decent[item]
-                dmg = 50
+                dmg = decent_dict[weapon]
             else:
                 pass
-        elif gacha >= 1 and gacha <= 124:
+        elif gacha >= 750 and gacha <= 1249:
             item = random.randint(0, 10)
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 200
+                dmg = fine_dict[weapon]
+            else:
+                pass
+        elif gacha >= 500 and gacha <= 749:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
+                rarity = 'rare'
+                weapon = rare[item]
+                dmg = rare_dict[weapon]
+            else:
+                pass
+        elif gacha >= 400 and gacha <= 499:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
+                rarity = 'epic'
+                weapon = epic[item]
+                dmg = epic_dict[weapon]
+            else:
+                pass
+        elif gacha >= 375 and gacha <= 399:
+            item = random.randint(0, 5)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
+                rarity = 'legendary'
+                weapon = legendary[item]
+                dmg = legendary_dict[weapon]
             else:
                 pass
     return '''You got your items<br>
@@ -435,69 +474,75 @@ def gachadraw10():
 
 @app.route('/gachagood1', methods=['POST', 'GET'])
 def gachagood1():
-    global weapon, coins, rarity, dmg, first_time_goodgacha
+    global weapon, coins, rarity, dmg
     if coins < 1500:
         return '''You cannot afford a gacha pull.<br>
                 <a href="/gacha">Back</a>'''
+    coins -= 1500
     for items in range(1):
-        coins -= 1500
-        gacha = random.randint(1, 1000)
+        gacha = random.randint(1, 10000)
         dmgincrease = 0
-        if first_time_goodgacha == True:
-            gacha = 8
-            first_time_goodgacha = False
-        if gacha >= 500 and gacha <= 999:
+        if gacha >= 5000 and gacha <= 9999:
             item = random.randint(0, 9)
             dmgincrease += 2
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you':
                 rarity = 'not as bad as you'
                 weapon = not_as_bad_as_you[item]
-                dmg = 20
+                dmg = not_as_bad_as_you_dict[weapon]
             else:
                 pass
-        elif gacha >= 250 and gacha <= 499:
+        elif gacha >= 2500 and gacha <= 4999:
             item = random.randint(0, 11)
             dmgincrease += 5
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'                
                 weapon = decent[item]
-                dmg = 50
+                dmg = decent_dict[item]
             else:
                 pass
-        elif gacha >= 125 and gacha <= 249:
+        elif gacha >= 1250 and gacha <= 2499:
             item = random.randint(0, 10)
             dmgincrease += 10
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 200
+                dmg = fine_dict[weapon]
             else:
                 pass
-        elif gacha >= 25 and gacha <= 124:
+        elif gacha >= 250 and gacha <= 1249:
             item = random.randint(0, 10)
             dmgincrease += 25
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
                 rarity = 'rare'
                 weapon = rare[item]
-                dmg = 500
+                dmg = rare_dict[weapon]
             else:
                 pass
-        elif gacha >= 7 and gacha <= 24:
+        elif gacha >= 40 and gacha <= 249:
             item = random.randint(0, 2)
             dmgincrease += 100
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
                 weapon = epic[item]
-                dmg = 2500
+                dmg = epic_dict[weapon]
             else:
                 pass
-        elif gacha >= 1 and gacha <= 6:
+        elif gacha >= 2 and gacha <= 39:
             item = random.randint(0, 5)
             dmgincrease += 500
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
                 weapon = legendary[item]
-                dmg = 10000
+                dmg = legendary_dict[weapon]
+            else:
+                pass
+        elif gacha == 1:
+            item = random.randint(0, 2)
+            dmgincrease += 2500
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic':
+                rarity = 'mythic'
+                weapon = mythic[item]
+                dmg = mythic_dict[weapon]
             else:
                 pass
         dmg += dmgincrease
@@ -506,74 +551,81 @@ def gachagood1():
 
 @app.route('/gachagood10', methods=['POST', 'GET'])
 def gachagood10():
-    global weapon, coins, rarity, dmg, dmgincrease, first_time_goodgacha
+    global weapon, coins, rarity, dmg
     if coins < 10000:
         return '''You cannot afford a 10 pull.<br>
                 <a href="/gacha">Back</a>'''
+    coins -= 10000
     for items in range(10):
-        coins -= 1000
-        gacha = random.randint(1, 1000)
+        gacha = random.randint(1, 10000)
         dmgincrease = 0
-        if first_time_goodgacha == True:
-            gacha = 8
-            first_time_goodgacha = False
-        if gacha >= 500 and gacha <= 999:
+        if gacha >= 5000 and gacha <= 9999:
             item = random.randint(0, 9)
             dmgincrease += 2
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you':
                 rarity = 'not as bad as you'
                 weapon = not_as_bad_as_you[item]
-                dmg = 20
+                dmg = not_as_bad_as_you_dict[weapon]
             else:
                 pass
-        elif gacha >= 250 and gacha <= 499:
+        elif gacha >= 2500 and gacha <= 4999:
             item = random.randint(0, 11)
             dmgincrease += 5
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
                 rarity = 'decent'                
                 weapon = decent[item]
-                dmg = 50
+                dmg = decent_dict[item]
             else:
                 pass
-        elif gacha >= 125 and gacha <= 249:
+        elif gacha >= 1250 and gacha <= 2499:
             item = random.randint(0, 10)
             dmgincrease += 10
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
                 rarity = 'fine'
                 weapon = fine[item]
-                dmg = 200
+                dmg = fine_dict[weapon]
             else:
                 pass
-        elif gacha >= 25 and gacha <= 124:
+        elif gacha >= 250 and gacha <= 1249:
             item = random.randint(0, 10)
             dmgincrease += 25
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
                 rarity = 'rare'
                 weapon = rare[item]
-                dmg = 500
+                dmg = rare_dict[weapon]
             else:
                 pass
-        elif gacha >= 7 and gacha <= 24:
+        elif gacha >= 40 and gacha <= 249:
             item = random.randint(0, 2)
             dmgincrease += 100
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
                 rarity = 'epic'
                 weapon = epic[item]
-                dmg = 2500
+                dmg = epic_dict[weapon]
             else:
                 pass
-        elif gacha >= 1 and gacha <= 6:
+        elif gacha >= 2 and gacha <= 39:
             item = random.randint(0, 5)
             dmgincrease += 500
             if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
                 rarity = 'legendary'
                 weapon = legendary[item]
-                dmg = 10000
+                dmg = legendary_dict[weapon]
+            else:
+                pass
+        elif gacha == 1:
+            item = random.randint(0, 2)
+            dmgincrease += 2500
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic':
+                rarity = 'mythic'
+                weapon = mythic[item]
+                dmg = mythic_dict[weapon]
             else:
                 pass
         dmg += dmgincrease
     return f'''You got your items and +{dmgincrease} dmg!<br> 
            <a href="/start">Go back</a>''' 
+
 
 
 
@@ -635,18 +687,18 @@ def sprial2():
     enemydmg = 50
     enemy = 'Velvet'
     enemyhealth = 500
-    dropped_weapon = 'Rare Sword'
-    dropped_rarity = 'rare'
-    increase_dmg = 250
+    dropped_weapon = 'Fine Sword'
+    dropped_rarity = 'fine'
+    increase_dmg = 225
     if velvet_alive == False:
         dropped_weapon = None
         dropped_rarity = None
     use_enemyhealth = enemyhealth
     if first_time_spiral2 is True:
-        gems += 50
+        gems += 25
         first_time_spiral2 = False
         return '''This is the 2cd floor of the Spiral of Doom.<br>
-                  [NEW AREA!: Floor 2 of the Spiral of Doom, reward: 50 gems]<br>
+                  [NEW AREA!: Floor 2 of the Spiral of Doom, reward: 25 gems]<br>
                   (VELVET MAN): AHA! I see you there. You. Will. Die.<br>
                   <a href="/fight">FIGHT HIM</a><br>
                   <a href="/spiralf3">Go to the final floor!</a><br>
@@ -663,19 +715,19 @@ def sprial3():
     enemy = 'God Servant'
     enemyhealth = 2500
     use_enemyhealth = enemyhealth
-    dropped_weapon = 'Epic Sword'
-    dropped_rarity = 'epic'
-    increase_dmg = 1000
+    dropped_weapon = 'Godly Bad Sword'
+    dropped_rarity = 'fine'
+    increase_dmg = 250
     if god_guy_alive == False:
         dropped_weapon = None
         dropped_rarity = None
         spiral = True
     if first_time_spiral3 is True:
-        coins += 4000
-        gems += 100
+        coins += 1000
+        gems += 500
         first_time_spiral3 = False
         return '''This is the FINAL FLOOR of the Spiral of Doom!<br>
-                  [NEW AREA: Floor 3 of the Spiral of Doom, reward: 4000 coins and 100 gems!]
+                  [NEW AREA: Floor 3 of the Spiral of Doom, reward: 1000 coins and 50 gems!]
                   (GOD SERVANT): Hi! Time to fight.<br>
                   <a href="/fight">Fight him</a><br>
                   <a href="/gachagood">Go to the Spiral Gacha</a><br>
@@ -690,14 +742,14 @@ def ww3():
     enemydmg = 100
     use_enemyhealth = enemyhealth
     dropped_weapon = 'Zombie Killer Sword'
-    dropped_rarity = 'legendary'
-    increase_dmg = 5000
+    dropped_rarity = 'rare'
+    increase_dmg = 575
     if first_time_ww3 is True:
-        coins += 10000
+        coins += 3000
         first_time_ww3 = False
         return f'''World. War. III!!!<br>
                    You are fighting in WW3! But is it as it seems?<br>
-                   [NEW AREA: WW3 Battlefield, reward: 10000 coins!]<br>
+                   [NEW AREA: WW3 Battlefield, reward: 3000 coins!]<br>
                    (God of Death): Fight this enemy, will you, { username }?<br>
                    (Zombie Killer): BLERSHIVICH FOR THE MURDER GOD!<br>
                    <a href="/fight">Fight Zombie Killer</a><br>
@@ -716,17 +768,17 @@ def ww3():
 def trial_1():
     global dropped_weapon, dropped_rarity, increase_dmg, enemy, enemyhealth, enemydmg, use_enemyhealth, first_time_trialI, coins, level
     dropped_weapon = 'Trial I Sword'
-    dropped_rarity = 'Legendary'
-    increase_dmg = 5250
+    dropped_rarity = 'rare'
+    increase_dmg = 650
     enemy = 'Defense Master'
     enemyhealth = 50000
     use_enemyhealth = enemyhealth
     enemydmg = 100
     if first_time_trialI is True:
-        coins += 25000
+        coins += 3000
         level += 5
         first_time_trialI = False
-        return '''[NEW AREA! Trial I Battlefield, reward: 25000 coins]<br>
+        return '''[NEW AREA! Trial I Battlefield, reward: 3000 coins]<br>
                   The first Trial of many!<br>
                   THE DEFENSE TRAIL!<br>
                   Defeat the Defense Trial Master<br>
