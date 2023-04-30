@@ -25,7 +25,7 @@ absolutely_terrible_dict = {
     'Training Sword':10,
     'Wired Sword':11,
     'Nothing Sword':12,
-    'Noneistent Sword':13,
+    'Nonexistent Sword':13,
     'Fight Me, Me Bow':14,
     'Useless Bow':15,
     'You Bow':16,
@@ -56,7 +56,7 @@ decent_dict = {
     'Existence Bow':85,
     'Duolingo':90,
     'You':95,
-    'Terribly Decent Bow':100,
+    'Terribly decent Bow':100,
     'Scythe':105,
 }
 
@@ -261,7 +261,7 @@ def fight():
     global velvet_alive, god_guy_alive, zombie_killer_alive, trial_i
     
     xp_increase = enemyhealth * enemydmg / ((level+1)*100)
-    coin_increase = enemyhealth * enemydmg / 10
+    coin_increase = enemyhealth * enemydmg / 100
     gem_increase = round(enemyhealth * enemydmg / 1000)
     if request.method == 'POST':
         if use_enemyhealth < dmg+1:
@@ -686,7 +686,7 @@ def sprial3():
         return render_template("spiral3error.html")
     enemydmg = 100
     enemy = 'God Servant'
-    enemyhealth = 2500
+    enemyhealth = 1000
     use_enemyhealth = enemyhealth
     increase_dmg = 250
     if god_guy_alive == False:
@@ -705,7 +705,7 @@ def sprial3():
 def ww3():
     global enemy, coins, enemyhealth, enemydmg, use_enemyhealth, dropped_weapon, dropped_rarity, increase_dmg, first_time_ww3
     enemy = 'Zombie Killer'
-    enemyhealth = 5000
+    enemyhealth = 2000
     enemydmg = 100
     use_enemyhealth = enemyhealth
     increase_dmg = 575
@@ -717,7 +717,7 @@ def ww3():
     if zombie_killer_alive is False:
         dropped_weapon = None
         dropped_rarity = None
-        return render_template("www3success.html")
+        return render_template("ww3success.html")
     return render_template('ww3.html', username=username, newareareward=newareareward)
 
 @app.route('/trial1', methods=['POST', 'GET'])
