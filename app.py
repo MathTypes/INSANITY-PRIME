@@ -273,19 +273,19 @@ def fight():
             turn = 1
             if enemy == 'Minion':
                 minions_killed += 1
-            elif enemy == 'Velvet':
+            elif enemy == 'Velvet' and velvet_alive == True:
                 dropped_weapon = 'Fine Sword'
                 dropped_rarity = 'fine'
                 velvet_alive = False
-            elif enemy == 'God Servant':
+            elif enemy == 'God Servant' and god_guy_alive == True:
                 dropped_weapon = 'Godly Bad Sword'
                 dropped_rarity = 'fine'
                 god_guy_alive = False
-            elif enemy == 'Zombie Killer':
+            elif enemy == 'Zombie Killer' and zombie_killer_alive == True:
                 dropped_weapon = 'Zombie Killer Sword'
                 dropped_rarity = 'rare'
                 zombie_killer_alive = False
-            elif enemy == 'Trial Master I':
+            elif enemy == 'Trial Master I' and trial_i == False:
                 dropped_weapon = 'Trial I Sword'
                 dropped_rarity = 'rare'
                 trial_i = True
@@ -298,12 +298,12 @@ def fight():
                 return render_template("fightsuccess.html", coin_increase=str(coin_increase), gem_increase=str(gem_increase), xp_increase=str(round(xp_increase, 2)), weapon=weapon, rarity=rarity)
             return render_template("fightsuccessnoweapon.html", coin_increase=str(coin_increase), gem_increase=str(gem_increase), xp_increase=str(round(xp_increase, 2)))
         elif use_health < enemydmg:
-            coins += coin_increase / 100
+            coins += coin_increase / 10
             level += round(xp_increase / 100, 2)
             health = 100 + level*10
             use_health = health
             turn = 1
-            return render_template("fighterror.html", coin_increase=str(coin_increase/100), xp_increase=str(round(xp_increase/100, 2)))
+            return render_template("fighterror.html", coin_increase=str(coin_increase/10), xp_increase=str(round(xp_increase/100, 2)))
         else:
             if turn % 2 == 1:
                 crithit = random.randint(1, 100)
@@ -323,6 +323,13 @@ def fight():
 
 
 
+@app.route('/gemgacha')
+def gemgacha():
+    return render_template('gemgacha.html')
+
+
+
+
 @app.route('/gacha')
 def gacha1():
     return render_template('gacha1.html')
@@ -333,6 +340,137 @@ def gacha1():
 def gachagood():
     return render_template('gachagood.html')
 
+@app.route('/gemgacha1', methods=['POST', 'GET'])
+def gemgachadraw1():
+    global weapon, gems, rarity, dmg
+    if gems < 250:
+        return render_template("gachaerror.html")
+    gems -= 250
+    for items in range(1):
+        gacha = random.randint(1, 1000)
+        if gacha >= 500:
+            item = random.randint(0, 11)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
+                rarity = 'decent'
+                weapon = decent[item]
+                dmg = decent_dict[weapon]
+            else:
+                pass
+        elif gacha >= 250 and gacha <= 499:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
+                rarity = 'fine'
+                weapon = fine[item]
+                dmg = fine_dict[weapon]
+            else:
+                pass
+        elif gacha >= 125 and gacha <= 249:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
+                rarity = 'rare'
+                weapon = rare[item]
+                dmg = rare_dict[weapon]
+            else:
+                pass
+        elif gacha >= 75 and gacha <= 124:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
+                rarity = 'epic'
+                weapon = epic[item]
+                dmg = epic_dict[weapon]
+            else:
+                pass
+        elif gacha >= 50 and gacha <= 74:
+            item = random.randint(0, 5)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
+                rarity = 'legendary'
+                weapon = legendary[item]
+                dmg = legendary_dict[weapon]
+            else:
+                pass
+        elif gacha >= 40 and gacha <= 49:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic':
+                rarity = 'mythic'
+                weapon = mythic[item]
+                dmg = mythic_dict[weapon]
+            else:
+                pass
+        elif gacha == 39:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic' or rarity == 'divine':
+                rarity = 'divine'
+                weapon = divine[item]
+                dmg = divine_dict[weapon]
+            else:
+                pass
+    return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
+
+@app.route('/gemgacha10', methods=['POST', 'GET'])
+def gemgachadraw10():
+    global weapon, gems, rarity, dmg
+    if gems < 2000:
+        return render_template("gachaerror.html")
+    gems -= 2000
+    for items in range(10):
+        gacha = random.randint(1, 1000)
+        if gacha >= 500:
+            item = random.randint(0, 11)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent':
+                rarity = 'decent'
+                weapon = decent[item]
+                dmg = decent_dict[weapon]
+            else:
+                pass
+        elif gacha >= 250 and gacha <= 499:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine':
+                rarity = 'fine'
+                weapon = fine[item]
+                dmg = fine_dict[weapon]
+            else:
+                pass
+        elif gacha >= 125 and gacha <= 249:
+            item = random.randint(0, 10)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare':
+                rarity = 'rare'
+                weapon = rare[item]
+                dmg = rare_dict[weapon]
+            else:
+                pass
+        elif gacha >= 75 and gacha <= 124:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic':
+                rarity = 'epic'
+                weapon = epic[item]
+                dmg = epic_dict[weapon]
+            else:
+                pass
+        elif gacha >= 50 and gacha <= 74:
+            item = random.randint(0, 5)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary':
+                rarity = 'legendary'
+                weapon = legendary[item]
+                dmg = legendary_dict[weapon]
+            else:
+                pass
+        elif gacha >= 40 and gacha <= 49:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic':
+                rarity = 'mythic'
+                weapon = mythic[item]
+                dmg = mythic_dict[weapon]
+            else:
+                pass
+        elif gacha == 39:
+            item = random.randint(0, 2)
+            if rarity == 'None' or rarity == 'absolutely terrible' or rarity == 'not as bad as you' or rarity == 'decent' or rarity == 'fine' or rarity == 'rare' or rarity == 'epic' or rarity == 'legendary' or rarity == 'mythic' or rarity == 'divine':
+                rarity = 'divine'
+                weapon = divine[item]
+                dmg = divine_dict[weapon]
+            else:
+                pass
+    return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
 
 @app.route('/weapongacha10', methods=['POST', 'GET'])
 def gachadraw10():
@@ -654,9 +792,9 @@ def spiral():
     use_enemyhealth = enemyhealth
     newareareward = ''
     if first_time_spiral is True:
-        gems += 30
+        gems += 15
         first_time_spiral = False
-        newareareward = '[NEW AREA!: The Spiral of Doom, reward: 30 gems]'
+        newareareward = '[NEW AREA!: The Spiral of Doom, reward: 15 gems]'
     return render_template('spiral.html', newareareward=newareareward)
 
 @app.route('/spiralf2', methods=['POST', 'GET'])
@@ -676,7 +814,7 @@ def sprial2():
     if first_time_spiral2 is True:
         gems += 25
         first_time_spiral2 = False
-        newareareward = '[NEW AREA!: Floor 2 of the Spiral of Doom, reward: 50 gems]'
+        newareareward = '[NEW AREA!: Floor 2 of the Spiral of Doom, reward: 25 gems]'
     return render_template('spiral2.html', newareareward=newareareward)
 
 @app.route('/spiralf3', methods=['POST', 'GET'])
@@ -696,9 +834,9 @@ def sprial3():
     newareareward = ''
     if first_time_spiral3 is True:
         coins += 1000
-        gems += 500
+        gems += 50
         first_time_spiral3 = False
-        newareareward = '[NEW AREA: Floor 3 of the Spiral of Doom, reward: 4000 coins and 100 gems!]'
+        newareareward = '[NEW AREA: Floor 3 of the Spiral of Doom, reward: 1000 coins and 50 gems!]'
     return render_template('spiral3.html', newareareward=newareareward)
 
 @app.route('/ww3', methods=['POST', 'GET'])
@@ -713,7 +851,7 @@ def ww3():
     if first_time_ww3 is True:
         coins += 3000
         first_time_ww3 = False
-        newareareward = '[NEW AREA: WW3 Battlefield, reward: 10000 coins!]'
+        newareareward = '[NEW AREA: WW3 Battlefield, reward: 3000 coins!]'
     if zombie_killer_alive is False:
         dropped_weapon = None
         dropped_rarity = None
@@ -725,15 +863,15 @@ def trial_1():
     global dropped_weapon, dropped_rarity, increase_dmg, enemy, enemyhealth, enemydmg, use_enemyhealth, first_time_trialI, coins, level
     increase_dmg = 650
     enemy = 'Trial Master I'
-    enemyhealth = 50000
+    enemyhealth = 10000
     use_enemyhealth = enemyhealth
     enemydmg = 100
     newareareward = ''
     if first_time_trialI is True:
-        coins += 3000
+        coins += 5000
         level += 5
         first_time_trialI = False
-        newareareward = '[NEW AREA! Trial I Battlefield, reward: 25000 coins]'
+        newareareward = '[NEW AREA! Trial I Battlefield, reward: 5000 coins]'
     if trial_i == True:
         dropped_weapon = None
         dropped_rarity = None
