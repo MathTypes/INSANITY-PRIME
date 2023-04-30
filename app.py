@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, render_template, flash
+from flask import Flask, render_template, request, render_template, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-import random, time
+import random
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -178,6 +178,10 @@ trial_i = False
 
 zombie_killer_alive = True
 
+@app.route('/assets/<path:path>', methods=["GET"])
+def hub_music(path):
+    return send_from_directory("assets", path)
+
 @app.route('/', methods=['POST', 'GET'])
 def enterinfo():
     global username, password, numberid, coins, gems, level, health, weapon, rarity, dmg, critchance, critdamage, enemy, enemyhealth, use_enemyhealth, enemydmg, dropped_weapon, dropped_rarity, increase_dmg, turn, first_time, training, first_time
@@ -230,14 +234,8 @@ def enterinfo():
         numberid = (len(username) + len(password)) * 2 + 1
         print(numberid)
         if username == '' or password == '' or username == 'Username' or password == 'Password':
-            return '''Error: username or password field is empty.<br>
-                   <a href="/">Retry</a>'''
-        return f'''Sucessfully signed in. Your username is {username} and your password is {password}.<br>
-                <form method="POST" action="/start" class="inline">
-                    <button type="submit" value="Start your adventure!" class="link-button">
-                        Start your adventure!
-                    </button>
-                </form>'''
+            return render_template("login_error.html")
+        return render_template("signedin.html", username=username, password=password)
     return render_template('username.html')
 
 
@@ -254,6 +252,7 @@ def hub():
 
 
 # Remove the glitch where the dropped sword stays so if you fight op guy and lost, kill minion and get op loot
+# Update 4/29/23: Fixed! - Arrow
 
 @app.route('/fight', methods=['POST', 'GET'])
 def fight():
@@ -275,12 +274,20 @@ def fight():
             if enemy == 'Minion':
                 minions_killed += 1
             elif enemy == 'Velvet':
+                dropped_weapon = 'Fine Sword'
+                dropped_rarity = 'fine'
                 velvet_alive = False
             elif enemy == 'God Servant':
+                dropped_weapon = 'Godly Bad Sword'
+                dropped_rarity = 'fine'
                 god_guy_alive = False
             elif enemy == 'Zombie Killer':
+                dropped_weapon = 'Zombie Killer Sword'
+                dropped_rarity = 'rare'
                 zombie_killer_alive = False
             elif enemy == 'Trial Master I':
+                dropped_weapon = 'Trial I Sword'
+                dropped_rarity = 'rare'
                 trial_i = True
             if dropped_weapon != weapon and dropped_weapon != None and dropped_rarity_num >= rarity_num:
                 weapon = dropped_weapon
@@ -288,19 +295,15 @@ def fight():
                 rarity = dropped_rarity
                 dropped_weapon = None
                 dropped_rarity = None
-                return f'''You win! You gained {str(coin_increase)} coins and {str(gem_increase)} gems! You also gained {str(round(xp_increase, 2))} xp!<br>
-                    You also get a {weapon} which rarity is {rarity}!<br>
-                    <a href="/start">Back to home</a>'''
-            return f'''You win! You gained {str(coin_increase)} coins and {str(gem_increase)} gems! You also gained {str(round(xp_increase, 2))} xp!<br>
-                    <a href="/start">Back to home</a>'''
+                return render_template("fightsuccess.html", coin_increase=str(coin_increase), gem_increase=str(gem_increase), xp_increase=str(round(xp_increase, 2)), weapon=weapon, rarity=rarity)
+            return render_template("fightsuccessnoweapon.html", coin_increase=str(coin_increase), gem_increase=str(gem_increase), xp_increase=str(round(xp_increase, 2)))
         elif use_health < enemydmg:
             coins += coin_increase / 100
             level += round(xp_increase / 100, 2)
             health = 100 + level*10
             use_health = health
             turn = 1
-            return f'''You lost. However, we will still give you {str(coin_increase/100)} coins and {str(round(xp_increase/100, 2))} xp.<br>
-                    <a href="/start">Back to home</a>'''
+            return render_template("fighterror.html", coin_increase=str(coin_increase/100), xp_increase=str(round(xp_increase/100, 2)))
         else:
             if turn % 2 == 1:
                 crithit = random.randint(1, 100)
@@ -335,8 +338,7 @@ def gachagood():
 def gachadraw10():
     global weapon, coins, rarity, dmg
     if coins < 3000:
-        return '''You cannot afford a 10 pull.<br>
-                <a href="/gacha">Back</a>'''
+        return render_template("gachaerror.html")
     coins -= 3000
     for items in range(10):
         gacha = random.randint(375, 10000)
@@ -396,15 +398,13 @@ def gachadraw10():
                 dmg = legendary_dict[weapon]
             else:
                 pass
-    return '''You got your items<br>
-           <a href="/start">Go back</a>'''
+    return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
 
 @app.route('/weapongacha1', methods=['POST', 'GET'])
 def gachadraw1():
     global weapon, coins, rarity, dmg
     if coins < 500:
-        return '''You cannot afford a gacha pull.<br>
-                <a href="/gacha">Back</a>'''
+        return render_template("gachaerror10.html")
     coins -= 500
     for items in range(1):
         gacha = random.randint(375, 10000)
@@ -464,8 +464,7 @@ def gachadraw1():
                 dmg = legendary_dict[weapon]
             else:
                 pass
-    return '''You got your items<br>
-           <a href="/start">Go back</a>'''
+    return render_template("gachasuccess.html", rarity=rarity, weapon=weapon)
 
 
 
@@ -476,8 +475,7 @@ def gachadraw1():
 def gachagood1():
     global weapon, coins, rarity, dmg
     if coins < 1500:
-        return '''You cannot afford a gacha pull.<br>
-                <a href="/gacha">Back</a>'''
+        return render_template("gachaerror.html")
     coins -= 1500
     for items in range(1):
         gacha = random.randint(1, 10000)
@@ -546,15 +544,13 @@ def gachagood1():
             else:
                 pass
         dmg += dmgincrease
-    return f'''You got your items and +{dmgincrease} dmg!<br> 
-           <a href="/start">Go back</a>''' 
+    return render_template("gachagoodsuccess.html", weapon=weapon, rarity=rarity, dmgincrease=dmgincrease) 
 
 @app.route('/gachagood10', methods=['POST', 'GET'])
 def gachagood10():
     global weapon, coins, rarity, dmg
     if coins < 10000:
-        return '''You cannot afford a 10 pull.<br>
-                <a href="/gacha">Back</a>'''
+        return render_template("gachaerror10.html")
     coins -= 10000
     for items in range(10):
         gacha = random.randint(1, 10000)
@@ -623,12 +619,7 @@ def gachagood10():
             else:
                 pass
         dmg += dmgincrease
-    return f'''You got your items and +{dmgincrease} dmg!<br> 
-           <a href="/start">Go back</a>''' 
-
-
-
-
+    return render_template("gachagoodsuccess.html", weapon=weapon, rarity=rarity, dmgincrease=dmgincrease) 
 
 
 
@@ -636,8 +627,7 @@ def gachagood10():
 def trainingground():
     global training, weapon, rarity, coins, gems, enemy, enemydmg, enemyhealth, use_enemyhealth, dropped_weapon, dropped_rarity, increase_dmg, dmg
     if training is True:
-        return '''You have already completed the training camp.<br>
-               <a href="/start">Back</a>'''
+        return render_template("trainingerror.html")
     weapon = 'Training Sword'
     rarity = 'absolutely terrible'
     dmg = 10
@@ -657,82 +647,59 @@ def trainingground():
 def spiral():
     global enemy, enemyhealth, use_enemyhealth, enemydmg, training, gems, first_time_spiral
     if training is False:
-        return '''You have not gone into the training grounds yet.<br>
-               <a href="/start">Back</a>'''
+        return render_template("spiralerror.html")
     enemydmg = 20
     enemy = 'Minion'
     enemyhealth = 150
     use_enemyhealth = enemyhealth
+    newareareward = ''
     if first_time_spiral is True:
         gems += 30
         first_time_spiral = False
-        return '''(Glenthrosh): Well, well, well. Look at what we have here. A ... soul.<br>
-                  (God of Murder): Then let him die. Our minions are enough.<br>
-                  [NEW AREA!: The Spiral of Doom, reward: 30 gems]<br>
-                  <a href="/fight">Fight Minion 1</a><br>
-                  <a href="/fight">Fight Minion 2</a><br>
-                  <a href="/fight">Fight Minion 3</a><br>
-                  <a href="/fight">Fight Minion 4</a><br>
-                  <a href="/fight">Fight Minion 5</a><br>
-                  <a href="/spiralf2">Go to floor 2</a><br>
-                  <a href="/start">Back</a><br>'''
-    return render_template('spiral.html')
+        newareareward = '[NEW AREA!: The Spiral of Doom, reward: 30 gems]'
+    return render_template('spiral.html', newareareward=newareareward)
 
 @app.route('/spiralf2', methods=['POST', 'GET'])
 def sprial2():
     global enemy, enemydmg, enemyhealth, use_enemyhealth, gems, dropped_weapon, dropped_rarity, increase_dmg, first_time_spiral2
     if minions_killed < 5:
-        return '''You have not killed 5 minions yet.<br>
-               <a href="/spiral">Back</a>'''
+        return render_template("spiral2error.html")
     enemydmg = 50
     enemy = 'Velvet'
     enemyhealth = 500
-    dropped_weapon = 'Fine Sword'
-    dropped_rarity = 'fine'
     increase_dmg = 225
     if velvet_alive == False:
         dropped_weapon = None
         dropped_rarity = None
     use_enemyhealth = enemyhealth
+    newareareward = ''
     if first_time_spiral2 is True:
         gems += 25
         first_time_spiral2 = False
-        return '''This is the 2cd floor of the Spiral of Doom.<br>
-                  [NEW AREA!: Floor 2 of the Spiral of Doom, reward: 25 gems]<br>
-                  (VELVET MAN): AHA! I see you there. You. Will. Die.<br>
-                  <a href="/fight">FIGHT HIM</a><br>
-                  <a href="/spiralf3">Go to the final floor!</a><br>
-                  <a href="/spiral">Back</a><br>'''
-    return render_template('spiral2.html')
+        newareareward = '[NEW AREA!: Floor 2 of the Spiral of Doom, reward: 50 gems]'
+    return render_template('spiral2.html', newareareward=newareareward)
 
 @app.route('/spiralf3', methods=['POST', 'GET'])
 def sprial3():
     global enemy, enemydmg, enemyhealth, use_enemyhealth, gems, spiral, dropped_weapon, dropped_rarity, increase_dmg, coins, first_time_spiral3
     if velvet_alive == True:
-        return '''You have not killed Velvet yet.<br>
-               <a href="/spiralf2">Back</a>'''
+        return render_template("spiral3error.html")
     enemydmg = 100
     enemy = 'God Servant'
     enemyhealth = 2500
     use_enemyhealth = enemyhealth
-    dropped_weapon = 'Godly Bad Sword'
-    dropped_rarity = 'fine'
     increase_dmg = 250
     if god_guy_alive == False:
         dropped_weapon = None
         dropped_rarity = None
         spiral = True
+    newareareward = ''
     if first_time_spiral3 is True:
         coins += 1000
         gems += 500
         first_time_spiral3 = False
-        return '''This is the FINAL FLOOR of the Spiral of Doom!<br>
-                  [NEW AREA: Floor 3 of the Spiral of Doom, reward: 1000 coins and 50 gems!]
-                  (GOD SERVANT): Hi! Time to fight.<br>
-                  <a href="/fight">Fight him</a><br>
-                  <a href="/gachagood">Go to the Spiral Gacha</a><br>
-                  <a href="/spiralf2">Back</a><br>'''
-    return render_template('spiral3.html')
+        newareareward = '[NEW AREA: Floor 3 of the Spiral of Doom, reward: 4000 coins and 100 gems!]'
+    return render_template('spiral3.html', newareareward=newareareward)
 
 @app.route('/ww3', methods=['POST', 'GET'])
 def ww3():
@@ -741,57 +708,37 @@ def ww3():
     enemyhealth = 5000
     enemydmg = 100
     use_enemyhealth = enemyhealth
-    dropped_weapon = 'Zombie Killer Sword'
-    dropped_rarity = 'rare'
     increase_dmg = 575
+    newareareward = ''
     if first_time_ww3 is True:
         coins += 3000
         first_time_ww3 = False
-        return f'''World. War. III!!!<br>
-                   You are fighting in WW3! But is it as it seems?<br>
-                   [NEW AREA: WW3 Battlefield, reward: 3000 coins!]<br>
-                   (God of Death): Fight this enemy, will you, { username }?<br>
-                   (Zombie Killer): BLERSHIVICH FOR THE MURDER GOD!<br>
-                   <a href="/fight">Fight Zombie Killer</a><br>
-                   <a href="/start">Back</a><br>
-                   *After killing the zombie killer, come back to this page.<br>'''
+        newareareward = '[NEW AREA: WW3 Battlefield, reward: 10000 coins!]'
     if zombie_killer_alive is False:
         dropped_weapon = None
         dropped_rarity = None
-        return '''(God of Death): Good!<br>
-                  (God of Death): You are can enter trials now!<br>
-                  <a href="/trial1">Trials</a><br>
-                  <a href="/start">Back</a>'''
-    return render_template('ww3.html', username=username)
+        return render_template("www3success.html")
+    return render_template('ww3.html', username=username, newareareward=newareareward)
 
 @app.route('/trial1', methods=['POST', 'GET'])
 def trial_1():
     global dropped_weapon, dropped_rarity, increase_dmg, enemy, enemyhealth, enemydmg, use_enemyhealth, first_time_trialI, coins, level
-    dropped_weapon = 'Trial I Sword'
-    dropped_rarity = 'rare'
     increase_dmg = 650
-    enemy = 'Defense Master'
+    enemy = 'Trial Master I'
     enemyhealth = 50000
     use_enemyhealth = enemyhealth
     enemydmg = 100
+    newareareward = ''
     if first_time_trialI is True:
         coins += 3000
         level += 5
         first_time_trialI = False
-        return '''[NEW AREA! Trial I Battlefield, reward: 3000 coins]<br>
-                  The first Trial of many!<br>
-                  THE DEFENSE TRAIL!<br>
-                  Defeat the Defense Trial Master<br>
-                  <a href="/fight">Fight Him!</a><br>
-                  <a href="/ww3">Back</a>'''
+        newareareward = '[NEW AREA! Trial I Battlefield, reward: 25000 coins]'
     if trial_i == True:
         dropped_weapon = None
         dropped_rarity = None
-        return '''(Defense Master): Yay!!!<br>
-                  (Defense Master): You can now move on to Trial II!<br>
-                  <a href="/trial2">Next Trial</a><br>
-                  <a href="/ww3">Back</a>'''
-    return render_template('trial_i.html')
+        return render_template("trial_isuccess.html")
+    return render_template('trial_i.html', newareareward=newareareward)
 
 
 
