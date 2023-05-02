@@ -261,8 +261,12 @@ def fight():
     global velvet_alive, god_guy_alive, zombie_killer_alive, trial_i, trial_ii
     
     xp_increase = enemyhealth * enemydmg / ((level+1)*100)
-    coin_increase = enemyhealth * enemydmg / 100
-    gem_increase = round(enemyhealth * enemydmg / 1000)
+    coin_increase = enemyhealth * enemydmg / 1000
+    gem_increase = round(enemyhealth * enemydmg / 10000)
+    if gem_increase > 2500:
+        gem_increase = 2500
+    if coin_increase > 10000000:
+        coin_increase = 10000000
     if request.method == 'POST':
         if use_enemyhealth < dmg+1:
             level += round(xp_increase, 2)
@@ -293,7 +297,7 @@ def fight():
                 dropped_weapon = 'Trial II Sword'
                 dropped_rarity = 'weak epic'
                 trial_ii = True
-            if dropped_weapon != weapon and dropped_weapon != None and dropped_rarity_num >= rarity_num:
+            if dropped_weapon != weapon and dropped_weapon != None and increase_dmg > dmg:
                 weapon = dropped_weapon
                 dmg = increase_dmg
                 rarity = dropped_rarity
@@ -1097,7 +1101,7 @@ def trial_2():
     global dropped_weapon, dropped_rarity, increase_dmg, enemy, enemyhealth, enemydmg, use_enemyhealth, first_time_trialII, coins, level, dmg
     increase_dmg = 1500
     enemy = 'Trial Master II'
-    enemyhealth = 1000
+    enemyhealth = 3000
     use_enemyhealth = enemyhealth
     enemydmg = 5000
     newareareward = ''
