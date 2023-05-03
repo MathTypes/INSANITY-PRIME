@@ -231,6 +231,9 @@ def enterinfo():
                 gems = float('inf')
                 coins = float('inf')
                 critchance = 100
+                weapon = '?sudo'
+                rarity = 'admin power'
+                dmg = float('inf')
                 critdmg = float('inf')
                 return render_template("signedin.html", username=username, password=password)
             else:
