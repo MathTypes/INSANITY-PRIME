@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, render_template, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-import random
+import random, time
+from save_code_enter import save_code_func
 
 app = Flask(__name__, static_url_path='/static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -140,6 +141,8 @@ rarity = 'None'
 
 rarity_num = 0
 
+first_time = True
+
 dmg = 0
 critchance = 1
 critdmg = 1.00
@@ -176,6 +179,8 @@ first_time_trialII = True
 trial_i = False
 trial_ii = False
 
+save_code = ''
+
 
 zombie_killer_alive = True
 
@@ -185,7 +190,7 @@ def hub_music(path):
 
 @app.route('/', methods=['POST', 'GET'])
 def enterinfo():
-    global username, password, numberid, coins, gems, level, health, weapon, rarity, dmg, critchance, critdmg, enemy, enemyhealth, use_enemyhealth, enemydmg, dropped_weapon, dropped_rarity, increase_dmg, turn, first_time, training
+    global username, password, numberid, coins, gems, level, health, weapon, rarity, dmg, critchance, critdmg, enemy, enemyhealth, use_enemyhealth, enemydmg, dropped_weapon, dropped_rarity, increase_dmg, turn, first_time, training, first_time_spiral, first_time_spiral2, first_time_spiral3, first_time_ww3, trial_i, trial_ii, first_time_trialI, first_time_trialII, first_time_ww3, save_code
     if request.method == 'POST':
         username = ''
         password = ''
@@ -198,6 +203,9 @@ def enterinfo():
         health = 100 + level * 10
         weapon = 'None'
         rarity = 'None'
+
+        rarity_num = 0
+
         dmg = 0
         critchance = 1
         critdmg = 1.00
@@ -211,13 +219,43 @@ def enterinfo():
 
         dropped_weapon = 'None'
         dropped_rarity = "yeah it doesn't exist"
+        dropped_rarity_num = 0
         increase_dmg = 0
 
         turn = 1
 
         training = False
 
-        first_time = False
+        first_time_spiral = True
+        first_time_spiral2 = True
+        first_time_spiral3 = True
+        spiral = False
+        first_time_ww3 = True
+
+        minions_killed = 0
+        velvet_alive = True
+        god_guy_alive = True
+
+        zombie_killer_alive = True
+        first_time_trialI = True
+        first_time_trialII = True
+        trial_i = False
+        trial_ii = False
+
+
+        zombie_killer_alive = True
+
+        if first_time is True:
+            first_time = False
+            while True:
+                save_code = str(username) + '-' + str(password) + '-' + str(numberid) + '-' + str(coins) + '-' + str(gems) + '-' + str(
+level) + '-' + str(health) + '-' + str(weapon) + '-' + str(rarity) + '-' + str(first_time) + '-' + str(dmg) + '-' + str(critchance) + '-' + str(
+critdmg) + '-' + str(enemy) + '-' + str(enemydmg) + '-' + str(enemyhealth) + '-' + str(dropped_weapon) + '-' + str(dropped_rarity) + '-' + str(
+increase_dmg) + '-' + str(turn) + '-' + str(training) + '-' + str(first_time_spiral) + '-' + str(first_time_spiral2) + '-' + str(first_time_spiral3) + '-' + str(
+spiral) + '-' + str(first_time_ww3) + '-' + str(minions_killed) + '-' + str(velvet_alive) + '-' + str(god_guy_alive) + '-' + str(zombie_killer_alive) + '-' + str(
+first_time_trialI) + '-' + str(first_time_trialII) + '-' + str(trial_i) + '-' + str(trial_ii) + '-' + str(coins)
+                time.sleep(5)
+                print(save_code)
 
         username = request.form.get('username')
         password = request.form.get('password')
@@ -242,7 +280,350 @@ def enterinfo():
     return render_template('username.html')
 
 
+@app.route('/save', methods=['POST', 'GET'])
+def save():
+    if request.method == 'POST':
+        return render_template('save.html', save_code=save_code)
+    return render_template('save.html')
 
+@app.route('/entersave', methods=['POST', 'GET'])
+def entersave():
+    global username, password, numberid, coins, gems, level, health, weapon, rarity, first_time, dmg, critchance, critdmg, enemy, enemydmg, enemyhealth, dropped_rarity
+    global dropped_weapon, increase_dmg, turn, training, first_time_spiral, first_time_spiral2, first_time_spiral3, spiral, first_time_ww3, minions_killed, velvet_alive
+    global god_guy_alive, zombie_killer_alive, first_time_trialI, first_time_trialII, trial_i, trial_ii
+    if request.method == 'POST':
+        save_code2 = request.form.get('save_code')
+
+        current_numberid = numberid
+
+        username = []
+        password = []
+        numberid = []
+        coins = []
+        gems =  []
+        level =  []
+        health =  []
+        weapon =  []
+        rarity =  []
+        first_time =  []
+        dmg =  []
+        critchance =  []
+        critdmg = []
+        enemy =  []
+        enemydmg =  []
+        enemyhealth =  []
+        dropped_weapon =  []
+        dropped_rarity =  []
+        increase_dmg =  []
+        turn =  []
+        training =  []
+        first_time_spiral =  []
+        first_time_spiral2 =  []
+        first_time_spiral3 =  []
+        spiral =  []
+        first_time_ww3 =  []
+        minions_killed =  []
+        velvet_alive =  []
+        god_guy_alive =  []
+        zombie_killer_alive =  []
+        first_time_trialI =  []
+        first_time_trialII =  []
+        trial_i =  []
+        trial_ii =  []
+        save_num = 1
+        for letter in save_code2: 
+            if save_num == 34:
+                if letter == 'T' and first13 is True:
+                    trial_ii = True
+                    first13 = False
+
+                elif letter == 'F' and first13 is True:
+                    trial_ii = False
+                    first13 = False
+                elif first13 is True:
+                    while True:
+                        return '''You suk!'''
+            elif save_num == 33:
+                first13 = True
+                if letter == 'T' and first12 is True:
+                    trial_i = True
+                    first12 = False
+
+                elif letter == 'F' and first12 is True:
+                    trial_i = False
+                    first12 = False
+                elif first12 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 32:
+                first12 = True
+                if letter == 'T' and first11 is True:
+                    first_time_trialII = True
+                    first11 = False
+
+                elif letter == 'F' and first10 is True:
+                    first_time_trialII = False
+                    first11 = False
+                elif first11 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 31:
+                first11 = True
+                if letter == 'T' and first10 is True:
+                    first_time_trialI = True
+                    first10 = False
+
+                elif letter == 'F' and first10 is True:
+                    first_time_trialI = False
+                    first10 = False
+                elif first10 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 30:
+                first10 = True
+                if letter == 'T' and first9 is True:
+                    zombie_killer_alive = True
+                    first9 = False
+
+                elif letter == 'F' and first9 is True:
+                    zombie_killer_alive = False
+                    first9 = False
+                elif first9 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 29:
+                first9 = True
+                if letter == 'T' and first8 is True:
+                    god_guy_alive = True
+                    first8 = False
+
+                elif letter == 'F' and first8 is True:
+                    god_guy_alive = False
+                    first8 = False
+                elif first8 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 28:
+                first8 = True
+                if letter == 'T' and first7 is True:
+                    velvet_alive = True
+                    first7 = False
+
+                elif letter == 'F' and first7 is True:
+                    velvet_alive = False
+                    first7 = False
+                elif first7 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 27:
+                if letter == '-':
+                    minions_killed = ''.join(num for num in minions_killed)
+                    save_num += 1
+                else:
+                    minions_killed.append(letter)
+            elif save_num == 26:
+                first7 = True
+                if letter == 'T' and first6 is True:
+                    first_time_ww3 = True
+                    first6 = False
+
+                elif letter == 'F' and first6 is True:
+                    first_time_ww3 = False
+                    first6 = False
+                elif first6 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 25:
+                first6 = True
+                if letter == 'T' and first5 is True:
+                    spiral = True
+                    first5 = False
+
+                elif letter == 'F' and first5 is True:
+                    spiral = False
+                    first5 = False
+                elif first5 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 24:
+                first5 = True
+                if letter == 'T' and first4 is True:
+                    first_time_spiral3 = True
+                    first4 = False
+
+                elif letter == 'F' and first4 is True:
+                    first_time_spiral3 = False
+                    first4 = False
+                elif first4 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 23:
+                first4 = True
+                if letter == 'T' and first3 is True:
+                    first_time_spiral2 = True
+                    first3 = False
+
+                elif letter == 'F' and first3 is True:
+                    first_time_spiral2 = False
+                    first3 = False
+                elif first3 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            elif save_num == 22:
+                first3 = True
+                if letter == 'T' and first2 is True:
+                    first_time_spiral = True
+                    first2 = False
+
+                elif letter == 'F' and first2 is True:
+                    first_time_spiral = False
+                    first2 = False
+                elif first2 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+            ### Stop Point up
+            elif save_num == 21:
+                first2 = True
+                if letter == 'T' and first1 is True:
+                    training = True
+                    first1 = False
+
+                elif letter == 'F' and first1 is True:
+                    training = False
+                    first1 = False
+                elif first1 is True:
+                    while True:
+                        return '''Save Manipulation!'''
+                else:
+                    pass
+            elif save_num == 20:
+                first1 = True
+                turn = 1
+            elif save_num == 19:
+                if letter == '-':
+                    increase_dmg = ''.join(num for num in increase_dmg)
+                    if increase_dmg == []:
+                        increase_dmg = 0
+                    save_num += 1
+                else:
+                    increase_dmg.append(letter) 
+            elif save_num == 18:
+                if letter == '-':
+                    dropped_rarity = ''.join(str(num) for num in dropped_rarity)
+                    save_num += 1
+                else:
+                    dropped_rarity.append(letter)
+            elif save_num == 17:
+                if letter == '-':
+                    dropped_weapon = ''.join(str(num) for num in dropped_weapon)
+                    save_num += 1
+                else:
+                    dropped_weapon.append(letter)
+            elif save_num == 16:
+                if letter == '-':
+                    enemyhealth = ''.join(num for num in enemyhealth)
+                    if enemyhealth == []:
+                        enemyhealth = 0
+                    save_num += 1
+                else:
+                    enemyhealth.append(letter)
+            elif save_num == 15:
+                if letter == '-':
+                    enemydmg = ''.join(num for num in enemydmg)
+                    save_num += 1
+                else:
+                    enemydmg.append(letter)
+            elif save_num == 14:
+                if letter == '-':
+                    enemy = ''.join(str(num) for num in enemy)
+                    save_num += 1
+                else:
+                    enemy.append(letter)
+            elif save_num == 13:
+                if letter == '-':
+                    critdmg = ''.join(num for num in critdmg)
+                    save_num += 1
+                else:
+                    critdmg.append(letter)
+            elif save_num == 12:
+                if letter == '-':
+                    critchance = ''.join(num for num in critchance)
+                    save_num += 1
+                else:
+                    critchance.append(letter)
+            elif save_num == 11:
+                if letter == '-':
+                    dmg = ''.join(num for num in dmg)
+                    if dmg == []:
+                        dmg = 0
+                    save_num += 1
+                else:
+                    dmg.append(letter)
+            elif save_num == 10:
+                save_num += 1
+            elif save_num == 9:
+                if letter == '-':
+                    rarity = ''.join(str(num) for num in rarity)
+                    save_num += 1
+                else:
+                    rarity.append(letter)
+            elif save_num == 8:
+                if letter == '-':
+                    weapon = ''.join(str(num) for num in weapon)
+                    save_num += 1
+                else:
+                    weapon.append(letter)
+            elif save_num == 7:
+                if letter == '-':
+                    health = ''.join(num for num in health)
+                    if health == []:
+                        health = 0
+                    save_num += 1
+                else:
+                    health.append(letter)
+            elif save_num == 6:
+                if letter == '-':
+                    level = ''.join(num for num in level)
+                    save_num += 1
+                else:
+                    level.append(letter)
+            elif save_num == 5:
+                if letter == '-':
+                    gems = ''.join(num for num in gems)
+                    if gems == []:
+                        gems = 0
+                    save_num += 1
+                else:
+                    gems.append(letter)
+            elif save_num == 4:
+                if letter == '-':
+                    coins = ''.join(num for num in coins)
+                    if coins == []:
+                        coins = 0
+                    save_num += 1
+                else:
+                    coins.append(letter)
+            elif save_num == 3:
+                if letter == '-':
+                    numberid = ''.join(num for num in numberid)
+                    save_num += 1
+                else:
+                    numberid.append(letter)
+            elif save_num == 2:
+                if letter == '-':
+                    password = ''.join(str(num) for num in password)
+                    save_num += 1
+                else:
+                    password.append(letter)
+            elif save_num == 1:
+                if letter == '-':
+                    username = ''.join([str(num) for num in username])
+                    save_num += 1
+                else:
+                    username.append(letter)
+            
+        return render_template('entersave.html', success='Success!')
+    return render_template('entersave.html', success='Failed...')
 
 
 @app.route('/start', methods=['POST', 'GET'])
@@ -256,6 +637,7 @@ def hub():
 
 # Remove the glitch where the dropped sword stays so if you fight op guy and lost, kill minion and get op loot
 # Update 4/29/23: Fixed! - Arrow
+# Nice! - DeathBlade
 
 @app.route('/fight', methods=['POST', 'GET'])
 def fight():

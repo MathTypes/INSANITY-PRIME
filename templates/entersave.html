@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save &middot; INSANITY-PRIME</title>
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+</head>
+<body>
+    <audio src="/assets/music/save.mp3" autoplay loop></audio>
+    Enter your save code.<br>
+    <form action="/entersave" method="POST">
+        <input type="text" name="save_code" id="save_code" placeholder="Save Code"><br>
+        <input type="submit" value="Submit"><br>
+    </form>
+    Success: {{ success }}<br>
+    <a href="/start">Back</a>
+
+</body>
+</html>
