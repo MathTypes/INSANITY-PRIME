@@ -700,15 +700,16 @@ def fight():
         else:
             if turn % 2 == 1:
                 crithit = random.randint(1, 100)
+                use_dmg = round(dmg * random.randint(0.8, 1.2))
                 if crithit <= critchance:
-                    use_enemyhealth -= dmg * critdmg + dmg
+                    use_enemyhealth -= use_dmg * critdmg + use_dmg
                 else:
-                    use_enemyhealth -= dmg
+                    use_enemyhealth -= use_dmg
                 turn += 1
                 return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
 
             else:
-                use_health -= enemydmg
+                use_health -= round(enemydmg * random.randint(0.8, 1.2))
                 turn += 1
                 return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
     return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
