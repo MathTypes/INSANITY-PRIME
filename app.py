@@ -286,6 +286,9 @@ def save():
         return render_template('save.html', save_code=save_code)
     return render_template('save.html')
 
+
+# Right now, every thing that is changed in save code becomes a string. However, gems and coins are integers so yeah but yeah cus yeah. -Deathblade
+
 @app.route('/entersave', methods=['POST', 'GET'])
 def entersave():
     global username, password, numberid, coins, gems, level, health, weapon, rarity, first_time, dmg, critchance, critdmg, enemy, enemydmg, enemyhealth, dropped_rarity
