@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, render_template, send_from_directory
+from flask import Flask, render_template, request, render_template, send_from_directory, session
 from flask_sqlalchemy import SQLAlchemy
 import random, time
 from save_code_enter import save_code_func
@@ -247,15 +247,15 @@ def enterinfo():
 
         if first_time is True:
             first_time = False
-            while True:
-                save_code = str(username) + '-' + str(password) + '-' + str(numberid) + '-' + str(coins) + '-' + str(gems) + '-' + str(
-level) + '-' + str(health) + '-' + str(weapon) + '-' + str(rarity) + '-' + str(first_time) + '-' + str(dmg) + '-' + str(critchance) + '-' + str(
-critdmg) + '-' + str(enemy) + '-' + str(enemydmg) + '-' + str(enemyhealth) + '-' + str(dropped_weapon) + '-' + str(dropped_rarity) + '-' + str(
-increase_dmg) + '-' + str(turn) + '-' + str(training) + '-' + str(first_time_spiral) + '-' + str(first_time_spiral2) + '-' + str(first_time_spiral3) + '-' + str(
-spiral) + '-' + str(first_time_ww3) + '-' + str(minions_killed) + '-' + str(velvet_alive) + '-' + str(god_guy_alive) + '-' + str(zombie_killer_alive) + '-' + str(
-first_time_trialI) + '-' + str(first_time_trialII) + '-' + str(trial_i) + '-' + str(trial_ii) + '-' + str(coins)
-                time.sleep(5)
-                print(save_code)
+            # Generate save code once
+            save_code_parts = [
+                username, password, numberid, coins, gems, level, health, weapon, rarity, first_time,
+                dmg, critchance, critdmg, enemy, enemydmg, enemyhealth, dropped_weapon, dropped_rarity,
+                increase_dmg, turn, training, first_time_spiral, first_time_spiral2, first_time_spiral3,
+                spiral, first_time_ww3, minions_killed, velvet_alive, god_guy_alive, zombie_killer_alive,
+                first_time_trialI, first_time_trialII, trial_i, trial_ii, coins
+            ]
+            save_code = '-'.join(str(part) for part in save_code_parts)
 
         username = request.form.get('username')
         password = request.form.get('password')
@@ -263,6 +263,11 @@ first_time_trialI) + '-' + str(first_time_trialII) + '-' + str(trial_i) + '-' + 
         print(numberid)
         if username == '' or password == '':
             return render_template("login_error.html")
+        
+        # Store user data in session
+        session['username'] = username
+        session['password'] = password
+        session['numberid'] = numberid
         if username == 'Jere' and password == 'tomato_yummy' or username == 'Oliver' and password == 'yerpsh96':
             password2 = input("Enter admin password: ")
             if password2 == "yerpsh":
@@ -631,6 +636,8 @@ def entersave():
 
 @app.route('/start', methods=['POST', 'GET'])
 def hub():
+    if 'username' not in session:
+        return render_template('login_error.html')
     if request.method == 'POST':
         return render_template('start.html', username=username)
     return render_template('hub.html', username=username, level=level, weapon=weapon, rarity=rarity, coins=coins, gems=gems, dmg=dmg)
@@ -708,12 +715,9 @@ def fight():
                     use_enemyhealth -= use_dmg * critdmg + use_dmg
                 else:
                     use_enemyhealth -= use_dmg
-                turn += 1
-                return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
-
-            else:
+                # Process both turns at once for faster combat
                 use_health -= round(enemydmg * random.randint(8, 12)/10)
-                turn += 1
+                turn += 2
                 return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
     return render_template('fight.html', health=use_health, enemy=enemy, enemyhealth=use_enemyhealth, username=username)
 
@@ -1508,5 +1512,6 @@ def trial_2():
 
 
 if __name__ == "__main__":
-    app.secret_key = 'XL2901'
+    app.secret_key = 'XL2901'  # Keep existing secret key
+    app.config['SESSION_TYPE'] = 'filesystem'
     app.run(debug=True)
